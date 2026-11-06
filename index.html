@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111827"><meta name="description" content="THE CLEAN CARE 사업 관리 앱">
+<link rel="manifest" href="./manifest.json"><title>THE CLEAN CARE MANAGER</title>
+<style>
+:root{--bg:#f3f5f8;--card:#fff;--ink:#172033;--muted:#718096;--navy:#111827;--blue:#2563eb;--green:#13845b;--red:#d14343;--line:#e7ebf1}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif}
+header{background:var(--navy);color:white;padding:21px 18px 19px;border-radius:0 0 23px 23px}.brand{font-weight:850;letter-spacing:.04em;font-size:17px}.sub{font-size:11px;color:#aab6c8;letter-spacing:.12em;margin-top:3px}.topline{display:flex;justify-content:space-between;align-items:center}.monthlabel{font-size:13px;color:#cbd5e1;margin-top:19px}
+main{max-width:800px;margin:auto;padding:15px 13px 100px}.page{display:none}.page.active{display:block}.cards{display:grid;grid-template-columns:1fr 1fr;gap:9px}.card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:14px;box-shadow:0 4px 14px #1b2b4509}.metric-label{font-size:12px;color:var(--muted)}.metric{font-size:22px;font-weight:800;margin-top:7px;letter-spacing:-.04em}.profit{grid-column:1/-1;background:#e9f6f0;border-color:#d4eee2}.profit .metric{color:var(--green)}.section{margin-top:20px}.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}.section-head h2{font-size:16px;margin:0}.muted,.note{color:var(--muted);font-size:12px;line-height:1.55}.quick{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.quick button{background:white;border:1px solid var(--line);border-radius:14px;padding:14px;text-align:left;font-weight:750;color:var(--ink);font-size:14px}.quick span{display:block;font-size:11px;font-weight:400;color:var(--muted);margin-top:5px}
+nav{position:fixed;bottom:0;left:0;right:0;background:#ffffffed;backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;overflow-x:auto;justify-content:space-around;padding:8px 3px calc(8px + env(safe-area-inset-bottom));z-index:5}nav button{border:0;background:none;color:#778195;font-size:10px;min-width:51px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:3px}nav button b{font-size:18px}nav button.active{color:var(--blue);font-weight:800}
+.toolbar{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}.btn{border:0;border-radius:11px;padding:10px 13px;background:var(--blue);color:white;font-weight:700;font-size:13px}.btn.secondary{background:#e8edf5;color:#263247}.btn.danger{background:#fff0f0;color:var(--red)}.list{display:grid;gap:8px}.item{background:white;border:1px solid var(--line);border-radius:14px;padding:12px}.itemtop{display:flex;justify-content:space-between;gap:8px;font-weight:750}.item small{display:block;color:var(--muted);margin-top:5px;line-height:1.5}.badge{font-size:10px;border-radius:30px;padding:4px 8px;background:#edf2fa;color:#536176;white-space:nowrap}.badge.done{background:#e6f6ed;color:#13764e}.badge.pending{background:#fff4df;color:#9a6500}
+form{background:white;border:1px solid var(--line);border-radius:15px;padding:13px;margin:11px 0;display:grid;gap:9px}label{font-size:12px;color:#596579;font-weight:700}input,select,textarea{width:100%;border:1px solid #dce2eb;border-radius:10px;padding:10px;font:inherit;background:white;color:var(--ink);margin-top:4px}textarea{min-height:65px;resize:vertical}.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.empty{padding:18px;text-align:center;color:var(--muted);background:white;border-radius:13px;border:1px dashed var(--line)}.actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.actions button{font-size:11px;padding:7px 9px;border-radius:8px;border:0;background:#edf1f7;color:#273449}.thumbs{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.thumbs img{width:75px;height:75px;object-fit:cover;border-radius:9px;border:1px solid var(--line)}.chartbox{background:white;border:1px solid var(--line);border-radius:15px;padding:12px}.chartbox canvas{width:100%;height:190px}.statrow{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.stat{background:#f7f9fc;border-radius:11px;padding:10px}.stat strong{display:block;font-size:15px;margin-top:4px}.two{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+@media(min-width:600px){main{padding-top:20px}.metric{font-size:26px}}
+</style></head>
+<body>
+<header><div class="topline"><div><div class="brand">THE CLEAN CARE</div><div class="sub">BUSINESS MANAGER · V2</div></div><div style="font-size:11px;color:#cbd5e1">사업 운영 대시보드</div></div><div class="monthlabel" id="headerDate"></div></header>
+<main>
+<section id="dashboard" class="page active">
+ <div class="cards">
+  <div class="card"><div class="metric-label">이번 달 매출</div><div class="metric" id="mRevenue">₩0</div></div>
+  <div class="card"><div class="metric-label">이번 달 지출</div><div class="metric" id="mExpense">₩0</div></div>
+  <div class="card"><div class="metric-label">이번 달 미수금</div><div class="metric" id="mReceivable">₩0</div></div>
+  <div class="card profit"><div class="metric-label">이번 달 관리상 순이익</div><div class="metric" id="mProfit">₩0</div></div>
+ </div>
+ <div class="section"><div class="section-head"><h2>빠른 등록</h2><span class="muted">바로 입력</span></div><div class="quick">
+  <button onclick="openPage('finance')">＋ 매출·지출<span>거래 내역 등록</span></button><button onclick="openPage('customers')">＋ 고객 등록<span>업체·연락처·계약</span></button>
+  <button onclick="openPage('schedule')">▦ 청소 일정<span>정기 일정 포함</span></button><button onclick="openPage('estimates')">⌖ 견적 방문<span>견적·계약 전환</span></button>
+  <button onclick="openPage('photos')">▧ 작업 사진<span>전·후 사진 기록</span></button><button onclick="openPage('dday')">◷ D-day<span>세금·보험·갱신</span></button>
+ </div></div>
+ <div class="section"><div class="section-head"><h2>월별 실적</h2><span class="muted">최근 6개월</span></div><div class="chartbox"><canvas id="trendChart" width="700" height="230"></canvas></div></div>
+ <div class="section"><div class="section-head"><h2>다가오는 일정</h2><span class="muted">가까운 순서</span></div><div id="upcoming" class="list"></div></div>
+ <div class="section"><div class="section-head"><h2>다가오는 D-day</h2><button class="btn secondary" onclick="openPage('dday')">관리</button></div><div id="homeDday" class="list"></div></div>
+ <p class="note">관리용 집계이며 세법상 과세소득과 다를 수 있습니다. 데이터는 이 기기의 브라우저에 저장되므로 정기 백업이 필요합니다.</p>
+</section>
+
+<section id="finance" class="page"><h1>수입 · 지출</h1><p class="note">거래일 기준으로 월별 매출·지출을 집계합니다.</p>
+<form id="txForm"><div class="row"><div><label>구분</label><select id="txType"><option value="income">매출</option><option value="expense">지출</option></select></div><div><label>거래일</label><input id="txDate" type="date" required></div></div>
+<div class="row"><div><label>금액 (원)</label><input id="txAmount" type="number" min="1" required placeholder="150000"></div><div><label>분류</label><select id="txCategory"><option>정기청소</option><option>준공·입주청소</option><option>기타 매출</option><option>세제·소모품</option><option>장비·수리</option><option>유류·교통</option><option>통신·수수료</option><option>기타 지출</option></select></div></div>
+<label>고객 / 거래처 / 내용<input id="txMemo" placeholder="예: OO빌라 정기청소"></label><div class="row"><div><label>입금 상태</label><select id="txStatus"><option value="paid">입금·결제 완료</option><option value="unpaid">미수금</option></select></div><div style="display:flex;align-items:end"><button class="btn" style="width:100%">거래 저장</button></div></div></form>
+<div class="section-head"><h2>거래 내역</h2><span id="txCount" class="muted"></span></div><div id="txList" class="list"></div></section>
+
+<section id="customers" class="page"><h1>고객 관리</h1><p class="note">업체별 담당자·연락처·주소·청소 주기와 계약 금액을 관리합니다.</p>
+<form id="customerForm"><label>업체 / 고객명<input id="cName" required placeholder="예: OO병원"></label><div class="row"><div><label>담당자</label><input id="cContact" placeholder="담당자 이름"></div><div><label>연락처</label><input id="cPhone" type="tel" placeholder="010-0000-0000"></div></div>
+<label>현장 주소<input id="cAddress" placeholder="대구 ○○구 ..."></label><div class="row"><div><label>청소 주기</label><select id="cCycle"><option>주 1회</option><option>주 2회</option><option>주 3회</option><option>매일</option><option>월 1회</option><option>일회성</option><option>기타</option></select></div><div><label>월 계약 금액 (원)</label><input id="cFee" type="number" min="0" placeholder="예: 400000"></div></div><label>메모<input id="cMemo" placeholder="작업 시간, 출입 방법, 주의사항"></label><button class="btn">고객 저장</button></form>
+<div class="section-head"><h2>등록 고객</h2><span id="customerCount" class="muted"></span></div><div id="customerList" class="list"></div></section>
+
+<section id="schedule" class="page"><h1>청소 일정</h1><p class="note">반복 일정을 설정하면 지정한 횟수만큼 일정이 자동 생성됩니다.</p>
+<form id="jobForm"><div class="row"><div><label>작업 날짜</label><input id="jobDate" type="date" required></div><div><label>시간</label><input id="jobTime" type="time"></div></div>
+<label>고객 / 현장명<input id="jobName" required placeholder="예: OO병원"></label><label>주소<input id="jobAddress" placeholder="현장 주소"></label><label>작업 내용<input id="jobMemo" placeholder="바닥, 화장실, 쓰레기 등"></label>
+<div class="row"><div><label>반복 설정</label><select id="jobRepeat"><option value="none">반복 없음</option><option value="weekly">매주</option><option value="biweekly">2주마다</option><option value="monthly">매월(같은 날짜)</option></select></div><div><label>생성 횟수</label><select id="jobCount"><option>4</option><option>8</option><option>12</option></select></div></div><button class="btn">일정 저장</button></form>
+<div class="section-head"><h2>등록된 청소 일정</h2></div><div id="jobList" class="list"></div></section>
+
+<section id="estimates" class="page"><h1>견적 관리</h1><p class="note">방문부터 계약 전환까지 진행 상태와 미계약 사유를 기록합니다.</p>
+<form id="estForm"><div class="row"><div><label>방문 날짜</label><input id="eDate" type="date" required></div><div><label>방문 시간</label><input id="eTime" type="time"></div></div>
+<label>고객 / 업체명<input id="eName" required placeholder="예: OO상가"></label><label>방문 주소<input id="eAddress" placeholder="주소"></label>
+<div class="row"><div><label>제시 견적 (원)</label><input id="eAmount" type="number" min="0" placeholder="300000"></div><div><label>진행 상태</label><select id="eStatus"><option>방문 예정</option><option>견적 발송</option><option>협의 중</option><option>계약 완료</option><option>미계약</option></select></div></div>
+<label>미계약 사유 / 메모<input id="eMemo" placeholder="예: 가격 차이, 일정 불일치, 경쟁업체 등"></label><button class="btn">견적 저장</button></form>
+<div class="statrow"><div class="stat"><span class="muted">전체 견적</span><strong id="eTotal">0건</strong></div><div class="stat"><span class="muted">계약 완료</span><strong id="eWon">0건</strong></div><div class="stat"><span class="muted">전환율</span><strong id="eRate">0%</strong></div></div>
+<div class="section"><div class="section-head"><h2>견적 목록</h2></div><div id="estimateList" class="list"></div></div></section>
+
+<section id="photos" class="page"><h1>현장 사진 기록</h1><p class="note">작업 전·후 사진을 현장별로 저장합니다. 사진은 용량을 줄여 기기에 보관합니다.</p>
+<form id="photoForm"><label>고객 / 현장명<input id="pName" required placeholder="예: OO사무실"></label><div class="row"><div><label>촬영 날짜</label><input id="pDate" type="date" required></div><div><label>구분</label><select id="pType"><option>작업 전</option><option>작업 후</option><option>작업 중</option></select></div></div>
+<label>사진 선택<input id="pFiles" type="file" accept="image/*" multiple required></label><label>메모<input id="pMemo" placeholder="바닥 오염, 유리 상태 등"></label><button class="btn">사진 저장</button></form>
+<div class="section-head"><h2>현장 사진 모음</h2></div><div id="photoList" class="list"></div></section>
+
+<section id="dday" class="page"><h1>D-day 관리</h1><p class="note">세금 신고, 보험 갱신, 차량 정비, 계약 갱신일 등을 기록합니다.</p>
+<form id="ddForm"><label>항목명<input id="ddName" required placeholder="예: 부가가치세 신고"></label><div class="row"><div><label>기준 날짜</label><input id="ddDate" type="date" required></div><div><label>분류</label><select id="ddCategory"><option>세금</option><option>보험</option><option>차량</option><option>계약</option><option>개인</option><option>기타</option></select></div></div><button class="btn">D-day 저장</button></form><div id="ddList" class="list"></div></section>
+
+<section id="settings" class="page"><h1>데이터 관리</h1><div class="card"><h2 style="font-size:16px;margin-top:0">백업 및 복원</h2><p class="note">고객·거래·일정·견적·사진·D-day 전체 데이터가 백업됩니다. 사진이 많으면 파일이 커질 수 있습니다.</p><div class="toolbar"><button class="btn" onclick="backup()">전체 백업 저장</button><button class="btn secondary" onclick="document.querySelector('#restoreFile').click()">백업 복원</button><input id="restoreFile" type="file" accept="application/json" hidden></div></div>
+<div class="card" style="margin-top:10px"><h2 style="font-size:16px;margin-top:0">거래 내역 CSV</h2><p class="note">엑셀에서 열어볼 수 있는 거래 파일입니다.</p><button class="btn secondary" onclick="exportCSV()">CSV 내보내기</button></div>
+<div class="card" style="margin-top:10px"><h2 style="font-size:16px;margin-top:0">저장 현황</h2><p class="note" id="storageInfo"></p><button class="btn danger" onclick="clearAll()">전체 데이터 삭제</button></div>
+<p class="note">이 앱은 로컬 저장 방식으로 로그인·클라우드 동기화가 없습니다. 다른 기기에서 보려면 백업·복원을 사용하세요. 세무 신고용 공식 장부를 대체하지 않습니다.</p></section>
+</main>
+<nav>
+<button class="active" data-page="dashboard" onclick="openPage('dashboard')"><b>⌂</b>홈</button><button data-page="finance" onclick="openPage('finance')"><b>₩</b>수입·지출</button><button data-page="customers" onclick="openPage('customers')"><b>♙</b>고객</button><button data-page="schedule" onclick="openPage('schedule')"><b>▦</b>일정</button><button data-page="estimates" onclick="openPage('estimates')"><b>⌖</b>견적</button><button data-page="photos" onclick="openPage('photos')"><b>▧</b>사진</button><button data-page="dday" onclick="openPage('dday')"><b>◷</b>D-day</button><button data-page="settings" onclick="openPage('settings')"><b>⚙</b>관리</button>
+</nav>
+<script>
+const KEY='tcc_manager_v2';
+const blank=()=>({transactions:[],customers:[],jobs:[],estimates:[],photos:[],ddays:[]});
+function load(){try{return {...blank(),...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch(e){return blank()}}
+let data=load();
+const $=id=>document.getElementById(id);
+function today(){let d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function money(n){return new Intl.NumberFormat('ko-KR',{style:'currency',currency:'KRW',maximumFractionDigits:0}).format(Number(n)||0)}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function dlabel(s){return (s||'').replaceAll('-','.')}
+function dayDiff(s){return Math.round((new Date(s+'T00:00:00')-new Date(today()+'T00:00:00'))/86400000)}
+function ddText(s){let n=dayDiff(s);return n===0?'D-DAY':n>0?`D-${n}`:`D+${Math.abs(n)}`}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(data));render()}catch(e){alert('저장 공간이 부족합니다. 사진을 백업한 뒤 일부 사진을 삭제해 주세요.');}}
+function openPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));render();scrollTo(0,0)}
+function del(group,id){if(confirm('이 항목을 삭제할까요?')){data[group]=data[group].filter(x=>x.id!==id);save()}}
+function item(title,sub,right='',tag='',buttons=''){return `<div class="item"><div class="itemtop"><span>${title}</span><span>${right}</span></div><small>${sub}</small>${tag?`<div style="margin-top:7px"><span class="badge">${tag}</span></div>`:''}${buttons?`<div class="actions">${buttons}</div>`:''}</div>`}
+function monthTx(m){return data.transactions.filter(x=>x.date?.startsWith(m))}
+function totals(m=today().slice(0,7)){let a=monthTx(m),inc=a.filter(x=>x.type==='income').reduce((s,x)=>s+ +x.amount,0),out=a.filter(x=>x.type==='expense').reduce((s,x)=>s+ +x.amount,0),ar=a.filter(x=>x.type==='income'&&x.status==='unpaid').reduce((s,x)=>s+ +x.amount,0);return {inc,out,ar,profit:inc-out}}
+function drawChart(){let c=$('trendChart'),ctx=c.getContext('2d'),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);let months=[];let d=new Date();d.setDate(1);for(let i=5;i>=0;i--){let x=new Date(d.getFullYear(),d.getMonth()-i,1);months.push(`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}`)}let vals=months.map(m=>totals(m)),max=Math.max(1,...vals.flatMap(v=>[v.inc,v.out]));ctx.font='12px sans-serif';ctx.fillStyle='#718096';ctx.strokeStyle='#e8edf3';for(let j=0;j<4;j++){let y=18+j*(h-48)/3;ctx.beginPath();ctx.moveTo(35,y);ctx.lineTo(w-8,y);ctx.stroke()}let group=(w-55)/6;months.forEach((m,i)=>{let x=42+i*group,barW=Math.min(24,group*.25),base=h-28,scale=(h-65)/max;ctx.fillStyle='#2563eb';ctx.fillRect(x,base-vals[i].inc*scale,barW,vals[i].inc*scale);ctx.fillStyle='#e59a36';ctx.fillRect(x+barW+4,base-vals[i].out*scale,barW,vals[i].out*scale);ctx.fillStyle='#718096';ctx.fillText(m.slice(5)+'월',x-2,h-8)});ctx.fillStyle='#2563eb';ctx.fillRect(40,3,8,8);ctx.fillStyle='#718096';ctx.fillText('매출',52,12);ctx.fillStyle='#e59a36';ctx.fillRect(100,3,8,8);ctx.fillStyle='#718096';ctx.fillText('지출',112,12)}
+function render(){
+ let t=totals();$('mRevenue').textContent=money(t.inc);$('mExpense').textContent=money(t.out);$('mReceivable').textContent=money(t.ar);$('mProfit').textContent=money(t.profit);let n=new Date();$('headerDate').textContent=`${n.getFullYear()}년 ${n.getMonth()+1}월 사업 현황`;
+ $('txCount').textContent=`${data.transactions.length}건`;$('txList').innerHTML=data.transactions.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(x=>item(esc(x.memo||x.category),`${dlabel(x.date)} · ${esc(x.category)} · ${x.status==='unpaid'?'미수금':'결제 완료'}`,`${x.type==='income'?'+':'−'}${money(x.amount)}`,x.type==='income'?'매출':'지출',`<button onclick="del('transactions','${x.id}')">삭제</button>`)).join('')||'<div class="empty">거래 내역이 없습니다.</div>';
+ $('customerCount').textContent=`${data.customers.length}곳`;$('customerList').innerHTML=data.customers.map(x=>item(esc(x.name),`${esc(x.contact)} ${esc(x.phone)}<br>${esc(x.address)}<br>${esc(x.cycle)} · 월 계약 ${money(x.fee)}<br>${esc(x.memo)}`,'','고객',`<button onclick="del('customers','${x.id}')">삭제</button>`)).join('')||'<div class="empty">등록 고객이 없습니다.</div>';
+ $('jobList').innerHTML=data.jobs.slice().sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time)).map(x=>item(esc(x.name),`${dlabel(x.date)} ${x.time||''} · ${esc(x.address)}<br>${esc(x.memo)}`,'',x.repeat==='none'?'청소 일정':'반복 생성',`<button onclick="del('jobs','${x.id}')">삭제</button>`)).join('')||'<div class="empty">청소 일정이 없습니다.</div>';
+ let won=data.estimates.filter(x=>x.status==='계약 완료').length,closed=data.estimates.filter(x=>['계약 완료','미계약'].includes(x.status)).length;$('eTotal').textContent=data.estimates.length+'건';$('eWon').textContent=won+'건';$('eRate').textContent=(closed?Math.round(won/closed*100):0)+'%';
+ $('estimateList').innerHTML=data.estimates.slice().sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time)).map(x=>item(esc(x.name),`${dlabel(x.date)} ${x.time||''} · ${esc(x.address)}<br>견적 ${money(x.amount)}<br>${esc(x.memo)}`,'',x.status,`<button onclick="del('estimates','${x.id}')">삭제</button>`)).join('')||'<div class="empty">견적 기록이 없습니다.</div>';
+ $('ddList').innerHTML=data.ddays.slice().sort((a,b)=>a.date.localeCompare(b.date)).map(x=>item(esc(x.name),`${dlabel(x.date)} · ${esc(x.category)}`,ddText(x.date),x.category,`<button onclick="del('ddays','${x.id}')">삭제</button>`)).join('')||'<div class="empty">D-day가 없습니다.</div>';
+ let upcoming=[...data.jobs.map(x=>({...x,kind:'청소'})),...data.estimates.map(x=>({...x,kind:'견적'}))].filter(x=>x.date>=today()).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time)).slice(0,5);$('upcoming').innerHTML=upcoming.map(x=>item(esc(x.name),`${dlabel(x.date)} ${x.time||''} · ${x.kind}`,'','예정')).join('')||'<div class="empty">예정 일정이 없습니다.</div>';
+ let near=data.ddays.slice().sort((a,b)=>dayDiff(a.date)-dayDiff(b.date)).slice(0,3);$('homeDday').innerHTML=near.map(x=>item(esc(x.name),`${dlabel(x.date)} · ${x.category}`,ddText(x.date),x.category)).join('')||'<div class="empty">D-day를 등록해 주세요.</div>';
+ $('photoList').innerHTML=data.photos.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(x=>`<div class="item"><div class="itemtop"><span>${esc(x.name)}</span><span class="badge">${esc(x.type)}</span></div><small>${dlabel(x.date)} · ${esc(x.memo)}</small><div class="thumbs">${x.images.map(src=>`<img src="${src}" alt="현장 사진">`).join('')}</div><div class="actions"><button onclick="del('photos','${x.id}')">사진 기록 삭제</button></div></div>`).join('')||'<div class="empty">저장된 현장 사진이 없습니다.</div>';
+ $('storageInfo').textContent=`고객 ${data.customers.length}곳 · 거래 ${data.transactions.length}건 · 청소 일정 ${data.jobs.length}건 · 견적 ${data.estimates.length}건 · 사진 기록 ${data.photos.length}건 · D-day ${data.ddays.length}건`;drawChart();
+}
+$('txForm').addEventListener('submit',e=>{e.preventDefault();data.transactions.push({id:uid(),type:txType.value,date:txDate.value,amount:+txAmount.value,category:txCategory.value,memo:txMemo.value,status:txStatus.value});e.target.reset();txDate.value=today();save()});
+$('customerForm').addEventListener('submit',e=>{e.preventDefault();data.customers.push({id:uid(),name:cName.value,contact:cContact.value,phone:cPhone.value,address:cAddress.value,cycle:cCycle.value,fee:+cFee.value||0,memo:cMemo.value});e.target.reset();save()});
+$('jobForm').addEventListener('submit',e=>{e.preventDefault();let date=new Date(jobDate.value+'T12:00:00'),repeat=jobRepeat.value,count=repeat==='none'?1:+jobCount.value;for(let i=0;i<count;i++){let d=new Date(date);if(repeat==='weekly')d.setDate(d.getDate()+7*i);if(repeat==='biweekly')d.setDate(d.getDate()+14*i);if(repeat==='monthly'){let day=date.getDate();d=new Date(date.getFullYear(),date.getMonth()+i,1);d.setDate(Math.min(day,new Date(d.getFullYear(),d.getMonth()+1,0).getDate()))}data.jobs.push({id:uid(),date:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`,time:jobTime.value,name:jobName.value,address:jobAddress.value,memo:jobMemo.value,repeat})}e.target.reset();jobDate.value=today();save()});
+$('estForm').addEventListener('submit',e=>{e.preventDefault();data.estimates.push({id:uid(),date:eDate.value,time:eTime.value,name:eName.value,address:eAddress.value,amount:+eAmount.value||0,status:eStatus.value,memo:eMemo.value});e.target.reset();eDate.value=today();save()});
+$('ddForm').addEventListener('submit',e=>{e.preventDefault();data.ddays.push({id:uid(),name:ddName.value,date:ddDate.value,category:ddCategory.value});e.target.reset();save()});
+function compress(file){return new Promise((resolve,reject)=>{let r=new FileReader();r.onload=()=>{let im=new Image();im.onload=()=>{let max=1100,scale=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*scale);c.height=Math.round(im.height*scale);c.getContext('2d').drawImage(im,0,0,c.width,c.height);resolve(c.toDataURL('image/jpeg',.72))};im.onerror=reject;im.src=r.result};r.onerror=reject;r.readAsDataURL(file)})}
+$('photoForm').addEventListener('submit',async e=>{e.preventDefault();let files=[...pFiles.files];if(!files.length)return;try{let images=[];for(let f of files)images.push(await compress(f));data.photos.push({id:uid(),name:pName.value,date:pDate.value,type:pType.value,memo:pMemo.value,images});e.target.reset();pDate.value=today();save()}catch(err){alert('사진을 읽지 못했습니다. 다른 이미지 파일을 선택해 주세요.')}});
+function backup(){let blob=new Blob([JSON.stringify(data)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='tcc-manager-backup-'+today()+'.json';a.click();URL.revokeObjectURL(a.href)}
+$('restoreFile').addEventListener('change',async e=>{let f=e.target.files[0];if(!f)return;try{let d=JSON.parse(await f.text());if(!Array.isArray(d.transactions)||!Array.isArray(d.jobs)||!Array.isArray(d.estimates)||!Array.isArray(d.ddays))throw Error();if(confirm('현재 기록을 백업 파일 내용으로 교체할까요?')){data={...blank(),...d};save();alert('복원했습니다.')}}catch(err){alert('올바른 백업 파일이 아닙니다.')}e.target.value=''});
+function exportCSV(){let rows=[['구분','거래일','금액','분류','내용','상태'],...data.transactions.map(x=>[x.type==='income'?'매출':'지출',x.date,x.amount,x.category,x.memo,x.status==='unpaid'?'미수금':'결제 완료'])];let csv='\uFEFF'+rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\n'),a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='tcc-transactions-'+today()+'.csv';a.click();URL.revokeObjectURL(a.href)}
+function clearAll(){if(confirm('모든 기록을 삭제할까요? 백업 여부를 확인하세요.')){data=blank();save()}}
+[txDate,jobDate,eDate,pDate].forEach(x=>x.value=today());render();
+if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script></body></html>
