@@ -1,5 +1,3 @@
-THE CLEAN CARE MANAGER V13
+THE CLEAN CARE MANAGER V14
 
-변경: 고객 입금예정일 당월/익월 및 1~31일/말일 선택, 대시보드 조회월 공통 적용, 지난달/이번 달/다음달 이동.
-기존 localStorage 키 tcc-manager-v3 유지. 기존 고객의 텍스트 입금일은 편집 시 선택값으로 변환.
-설치: index.html, manifest.json, sw.js를 기존 GitHub Pages 저장소 최상위에 업로드. 먼저 JSON 백업.
+각 대시보드 섹션별 독립적인 월별/연도별 조회, 월 선택 및 지난달/이번달/다음달 버튼. 월 매출, 목표 달성, 정기계약 입금, 청구월별 입금·미수금이 서로 다른 기간을 조회합니다. 기존 데이터 저장 키 유지.
